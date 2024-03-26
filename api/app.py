@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-import house_prices  # Import your model script
+import api.house_price as house_price  # Import your model script
 
 app = Flask(__name__)
 
@@ -23,7 +23,7 @@ def predict_house_price():
     prefarea = data['prefarea']
     
     # Make prediction using the model
-    predicted_price = house_prices.predict_house_price(area, bedrooms, bathrooms, stories, mainroad, guestroom, basement, hotwaterheating, airconditioning, parking, prefarea)
+    predicted_price = house_price.predict_house_price(area, bedrooms, bathrooms, stories, mainroad, guestroom, basement, hotwaterheating, airconditioning, parking, prefarea)
     
     # Return predicted price as JSON response
     return jsonify({'predicted_price': predicted_price})

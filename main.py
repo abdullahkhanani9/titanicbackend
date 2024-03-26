@@ -49,9 +49,12 @@ from api.covid import covid_api # Blueprint import api definition
 from api.joke import joke_api # Blueprint import api definition
 from api.user import user_api # Blueprint import api definition
 from api.player import player_api
+from api.house_price import house_price_api
 # database migrations
 from model.users import initUsers
 from model.players import initPlayers
+
+
 
 # setup App pages
 from projects.projects import app_projects # Blueprint directory import projects definition
@@ -61,11 +64,9 @@ from projects.projects import app_projects # Blueprint directory import projects
 db.init_app(app)
 
 # register URIs
-app.register_blueprint(joke_api) # register api routes
-app.register_blueprint(covid_api) # register api routes
-app.register_blueprint(user_api) # register api routes
-app.register_blueprint(player_api)
 app.register_blueprint(app_projects) # register app pages
+app.register_blueprint(house_price_api)
+
 
 @app.errorhandler(404)  # catch for URL not found
 def page_not_found(e):
@@ -90,11 +91,6 @@ def before_request():
 # Create an AppGroup for custom commands
 custom_cli = AppGroup('custom', help='Custom commands')
 
-# Define a command to generate data
-@custom_cli.command('generate_data')
-def generate_data():
-    initUsers()
-    initPlayers()
 
 # Register the custom command group with the Flask application
 app.cli.add_command(custom_cli)
@@ -104,7 +100,10 @@ if __name__ == "__main__":
     # change name for testing
     app.run(debug=True, host="0.0.0.0", port="8086")
 
-import pandas as pd
+
+
+
+"""import pandas as pd
 from sklearn.linear_model import LinearRegression
 import pickle
 
@@ -162,3 +161,4 @@ prefarea = int(input("Is the house in a preferred area? (1 for Yes, 0 for No): "
 
 predicted_price = predict_house_price(area, bedrooms, bathrooms, stories, mainroad, guestroom, basement, hotwaterheating, airconditioning, parking, prefarea)
 print("Predicted price:", predicted_price/10)
+"""
